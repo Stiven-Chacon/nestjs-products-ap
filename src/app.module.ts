@@ -9,7 +9,5 @@ import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [MongooseModule.forRoot(process.env.MONGODB_URI!), ProductsModule],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
