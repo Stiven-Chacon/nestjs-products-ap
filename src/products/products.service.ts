@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Product, ProductDocument } from './schemas/products.shema';
 import { CreateProductDto } from './dtos/create-product.dto';
+import { UpdateProductDto } from './dtos/update-product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -14,4 +15,19 @@ export class ProductsService {
     const createdProduct = new this.productModel(products);
     return createdProduct.save()
   }
+
+  async update(id: string, updateProductDto: UpdateProductDto) {
+    const updatedProduct = await this.productModel.findByIdAndUpdate(
+        id,
+        { $set: updateProductDto },
+        { new: true, runValidators: true }
+    );
+
+    if (!updatedProduct) {
+        throw new NotFoundException(`Producto con id ${id} no encontrado`);
+    }
+
+    return updatedProduct;
+   }
+
 }
