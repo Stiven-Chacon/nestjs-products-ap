@@ -30,4 +30,10 @@ export class ProductsService {
     return updatedProduct;
    }
 
+
+   async findAll() {
+     return this.productModel.find().exec();
+    }
+
+
 }
